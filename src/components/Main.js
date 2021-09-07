@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import openweather from '../apis/openweather'
 import Dropdown from 'react-dropdown';
 import CITYLIST from "../statics/cityList"
@@ -22,21 +22,24 @@ function Main() {
     const defaultOption = options[0];
 
     return (
-        <div className="search-main">
-            <div className="search-title">
-                Current Weather Search
-            </div>
-            <Dropdown options={options} onChange={onChangeSelected} placeholder="Select a City"/>
-            <div className="display">
-                <div className="display-content">
-                    <div>{data.name}</div>
-                    <div>{data.wind}</div>
-                    <div>{data.temp}</div>
-                    <div>{data.hum}</div>
-                    <div>{data.weather}</div>
+        <div className="app">
+            <div className="search-main">
+                <div className="search-title">
+                    Current Weather Search
+                </div>
+                <Dropdown className="my-dropdown" options={options} onChange={onChangeSelected} placeholder="Select a City"/>
+                <div className="display">
+                    <div className="display-content">
+                        <div>{data.name}</div>
+                        <div>{data.wind}</div>
+                        <div>{data.temp}</div>
+                        <div>{data.hum}</div>
+                        <div>{data.weather}</div>
+                    </div>
                 </div>
             </div>
         </div>
+        
     )
 }
 
