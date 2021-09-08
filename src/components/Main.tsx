@@ -7,13 +7,20 @@ import CITYLIST from "../statics/cityList";
 import 'react-dropdown/style.css';
 import Footer from './Footer';
 
-function Main() {
-    const [data, setData] = useState({})
-    const [display, setDisplay] = useState(false)
+interface DataNode {
+    wind: number,
+    temp: number,
+    hum: number,
+    weather: string
+}
 
-    const onChangeSelected = async e =>{
+const Main: React.FC = () => {
+    const [data, setData] = useState<any | DataNode>({})
+    const [display, setDisplay] = useState<boolean>(false)
+
+    const onChangeSelected = async (event:any) =>{
         try{
-            const {data} = await openweather.get("/weather", {params: {q: e.value, units: "metric"}})
+            const {data} = await openweather.get("/weather", {params: {q: event.value, units: "metric"}})
             setData({wind: data.wind.speed, temp: data.main.temp, hum: data.main.humidity, weather: data.weather[0].main})
             setDisplay(true)
         }
@@ -23,13 +30,13 @@ function Main() {
         }
     }
 
-    const options = CITYLIST;
+    const options: string[] = CITYLIST;
 
     return (
         <div className="app">
             <div className="search-main">
                 <div className="search-title">
-                    Current Weather Search
+                    Current Weather Data
                 </div>
                 <Dropdown className="my-dropdown" options={options} onChange={onChangeSelected} placeholder="Select a City"/>
                 { display ? 
