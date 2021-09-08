@@ -1,8 +1,11 @@
-import React, {useState} from 'react'
-import openweather from '../apis/openweather'
+import React, {useState} from 'react';
+import openweather from '../apis/openweather';
 import Dropdown from 'react-dropdown';
-import CITYLIST from "../statics/cityList"
+import {BiWind} from "react-icons/bi";
+import {WiHumidity} from "react-icons/wi";
+import CITYLIST from "../statics/cityList";
 import 'react-dropdown/style.css';
+import Footer from './Footer';
 
 function Main() {
     const [data, setData] = useState({})
@@ -10,7 +13,7 @@ function Main() {
     const onChangeSelected = async e =>{
         try{
             const {data} = await openweather.get("/weather", {params: {q: e.value, units: "metric"}})
-            setData({name: data.name, wind: data.wind.speed, temp: data.main.temp, hum: data.main.humidity, weather: data.weather[0].main})
+            setData({wind: data.wind.speed, temp: data.main.temp, hum: data.main.humidity, weather: data.weather[0].main})
             console.log(data)
         }
         catch(ex){
@@ -19,7 +22,6 @@ function Main() {
     }
 
     const options = CITYLIST;
-    const defaultOption = options[0];
 
     return (
         <div className="app">
@@ -30,16 +32,19 @@ function Main() {
                 <Dropdown className="my-dropdown" options={options} onChange={onChangeSelected} placeholder="Select a City"/>
                 <div className="display">
                     <div className="display-content">
-                        <div>{data.name}</div>
-                        <div>{data.wind}</div>
-                        <div>{data.temp}</div>
-                        <div>{data.hum}</div>
-                        <div>{data.weather}</div>
+                        <React.Fragment>
+                            <ul className="content-wrapper">
+                                <li className="content-item">{`${data.temp} ºC`}</li>
+                                <li className="content-item">{data.wind}<BiWind className="content-icon"/></li>
+                                <li className="content-item">{data.hum}<WiHumidity className="content-icon"/></li>
+                                <li className="content-item">{`(${data.weather})`}</li>
+                            </ul>
+                        </React.Fragment>
                     </div>
                 </div>
+                <Footer/>
             </div>
-        </div>
-        
+        </div> 
     )
 }
 
