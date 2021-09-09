@@ -1,3 +1,7 @@
+# About
+
+This app displays the current weather conditions of Australia’s major capital cities.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
