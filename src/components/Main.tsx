@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import openweather from '../apis/openweather';
-import Dropdown from 'react-dropdown';
+import Dropdown, { Option } from 'react-dropdown';
 import {BiWind} from "react-icons/bi";
 import {WiHumidity} from "react-icons/wi";
 import CITYLIST from "../statics/cityList";
@@ -8,17 +8,19 @@ import 'react-dropdown/style.css';
 import Footer from './Footer';
 
 interface DataNode {
-    wind: number,
-    temp: number,
-    hum: number,
-    weather: string
+    data:{
+        wind?: number,
+        temp?: number,
+        hum?: number,
+        weather?: string
+    }
 }
 
 const Main: React.FC = () => {
-    const [data, setData] = useState<any | DataNode>({})
+    const [data, setData] = useState<DataNode["data"]>({})
     const [display, setDisplay] = useState<boolean>(false)
 
-    const onChangeSelected = async (event:any) =>{
+    const onChangeSelected = async (event: Option) : Promise<void> =>{
         try{
             const {data} = await openweather.get("/weather", {params: {q: event.value, units: "metric"}})
             setData({wind: data.wind.speed, temp: data.main.temp, hum: data.main.humidity, weather: data.weather[0].main})
